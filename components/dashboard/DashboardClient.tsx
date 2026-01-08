@@ -14,6 +14,7 @@ import RecentActivity from "@/components/activity/RecentActivity";
 import CodeFrequencyChart from "@/components/charts/CodeFrequencyChart";
 import TopCollaborators from "@/components/collaborators/TopCollaborators";
 import FloatingFilters from "@/components/filters/FloatingFilters";
+import Card from "../ui/Card";
 
 export default function DashboardClient() {
   const { data, loading, error } = useDashboardData();
@@ -70,9 +71,13 @@ export default function DashboardClient() {
 
         <ContributionHeatmap heatmap={data.heatmap} />
 
-        <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <TopRepositories repos={data.topRepos} />
+        <section className="">
           <ActivityBreakdown heatmap={data.heatmap} totals={data.totals} />
+        </section>
+
+        <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <TopRepositories repos={data.topRepos} />
+
           <RecentActivity activity={data.recentActivity} />
         </section>
 
