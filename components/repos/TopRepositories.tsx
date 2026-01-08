@@ -8,8 +8,11 @@ interface TopRepositoriesProps {
 
 export default function TopRepositories({ repos }: TopRepositoriesProps) {
   return (
-    <Card className="bg-[#0d1624] border-[#12314a] text-white">
-      <h3 className="text-lg font-semibold mb-4">Top Repositories</h3>
+    <Card variant="default" glow={true} className="h-full">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-blue-400">📂</span>
+        <h3 className="text-lg font-semibold">Top Repositories</h3>
+      </div>
       <div className="space-y-3">
         {repos.map((repo) => (
           <RepoCard key={repo.name} repo={repo} />

@@ -7,13 +7,15 @@ interface ProductivityPatternsProps {
 
 const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export default function ProductivityPatterns({ productivity }: ProductivityPatternsProps) {
+export default function ProductivityPatterns({
+  productivity,
+}: ProductivityPatternsProps) {
   const { peakHour, peakDay, byHour, byDay } = productivity;
   const hourMax = Math.max(...byHour, 1);
   const dayMax = Math.max(...byDay, 1);
 
   return (
-    <Card className="bg-[#0d1624] border-[#12314a] text-white">
+    <Card variant="default" glow={true}>
       <div className="flex items-center gap-2 mb-4">
         <span className="text-purple-300">⚡</span>
         <h3 className="text-lg font-semibold">Productivity Patterns</h3>
@@ -36,7 +38,10 @@ export default function ProductivityPatterns({ productivity }: ProductivityPatte
           ))}
         </div>
         <div className="text-xs text-gray-500 mt-1 flex justify-between">
-          <span>6a</span><span>12p</span><span>6p</span><span>9p</span>
+          <span>6a</span>
+          <span>12p</span>
+          <span>6p</span>
+          <span>9p</span>
         </div>
       </Section>
 
@@ -53,7 +58,9 @@ export default function ProductivityPatterns({ productivity }: ProductivityPatte
         </div>
         <div className="text-xs text-gray-500 mt-1 grid grid-cols-7">
           {dayLabels.map((d) => (
-            <span key={d} className="text-center">{d}</span>
+            <span key={d} className="text-center">
+              {d}
+            </span>
           ))}
         </div>
       </Section>
@@ -70,7 +77,13 @@ function Tile({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
+function Section({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="mb-3">
       <div className="text-sm text-gray-300 mb-2">{label}</div>

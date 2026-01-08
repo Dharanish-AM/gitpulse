@@ -133,19 +133,19 @@ export default function ActivityBreakdown({
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="commits" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="ab_commits" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.4} />
                 <stop offset="95%" stopColor="#22d3ee" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="prs" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="ab_prs" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#a855f7" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#a855f7" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="issues" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="ab_issues" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#ec4899" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#ec4899" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="reviews" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="ab_reviews" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#22c55e" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
               </linearGradient>
@@ -173,7 +173,7 @@ export default function ActivityBreakdown({
               name="Commits"
               stroke="#22d3ee"
               strokeWidth={2}
-              fill="url(#commits)"
+              fill="url(#ab_commits)"
               dot={false}
               animationDuration={700}
             />
@@ -183,7 +183,7 @@ export default function ActivityBreakdown({
               name="PRs"
               stroke="#a855f7"
               strokeWidth={2}
-              fill="url(#prs)"
+              fill="url(#ab_prs)"
               dot={false}
               animationDuration={700}
             />
@@ -193,7 +193,7 @@ export default function ActivityBreakdown({
               name="Issues"
               stroke="#ec4899"
               strokeWidth={2}
-              fill="url(#issues)"
+              fill="url(#ab_issues)"
               dot={false}
               animationDuration={700}
             />
@@ -203,7 +203,7 @@ export default function ActivityBreakdown({
               name="Reviews"
               stroke="#22c55e"
               strokeWidth={2}
-              fill="url(#reviews)"
+              fill="url(#ab_reviews)"
               dot={false}
               animationDuration={700}
             />

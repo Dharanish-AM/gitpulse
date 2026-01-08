@@ -1,6 +1,13 @@
 import Card from "@/components/ui/Card";
 import { DashboardData } from "@/types/dashboard";
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Plus, Minus } from "lucide-react";
 
 interface CodeFrequencyChartProps {
@@ -31,7 +38,10 @@ function toWeeklySeries(heatmap: DashboardData["heatmap"]): FrequencyPoint[] {
     .map(([key, total]) => {
       const additions = total * 20;
       const deletions = total * 10;
-      const label = new Date(key).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const label = new Date(key).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
       return { week: label, additions, deletions } satisfies FrequencyPoint;
     });
 }
@@ -45,19 +55,25 @@ function CustomTooltip({ active, payload, label }: any) {
         <div className="flex items-center gap-2 text-xs text-gray-200">
           <span className="w-2 h-2 rounded-sm bg-emerald-400" />
           <span>Additions</span>
-          <span className="font-mono text-emerald-300">{payload[0].value.toLocaleString()}</span>
+          <span className="font-mono text-emerald-300">
+            {payload[0].value.toLocaleString()}
+          </span>
         </div>
         <div className="flex items-center gap-2 text-xs text-gray-200">
           <span className="w-2 h-2 rounded-sm bg-pink-400" />
           <span>Deletions</span>
-          <span className="font-mono text-pink-300">{payload[1].value.toLocaleString()}</span>
+          <span className="font-mono text-pink-300">
+            {payload[1].value.toLocaleString()}
+          </span>
         </div>
       </div>
     </div>
   );
 }
 
-export default function CodeFrequencyChart({ heatmap }: CodeFrequencyChartProps) {
+export default function CodeFrequencyChart({
+  heatmap,
+}: CodeFrequencyChartProps) {
   const data = toWeeklySeries(heatmap);
   const totals = data.reduce(
     (acc, cur) => {
@@ -76,8 +92,14 @@ export default function CodeFrequencyChart({ heatmap }: CodeFrequencyChartProps)
           <h3 className="text-lg font-semibold text-white">Code Frequency</h3>
         </div>
         <div className="text-xs text-gray-400 flex items-center gap-3">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400" />{totals.additions.toLocaleString()} additions</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-pink-400" />{totals.deletions.toLocaleString()} deletions</span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            {totals.additions.toLocaleString()} additions
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-pink-400" />
+            {totals.deletions.toLocaleString()} deletions
+          </span>
         </div>
       </div>
 
@@ -87,26 +109,33 @@ export default function CodeFrequencyChart({ heatmap }: CodeFrequencyChartProps)
             <Plus className="w-4 h-4" />
             Additions
           </div>
-          <div className="text-xl font-bold text-emerald-300">{totals.additions.toLocaleString()}</div>
+          <div className="text-xl font-bold text-emerald-300">
+            {totals.additions.toLocaleString()}
+          </div>
         </div>
         <div className="rounded-xl border border-[#1a2c45] bg-[#1f1224] px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2 text-pink-300 text-sm">
             <Minus className="w-4 h-4" />
             Deletions
           </div>
-          <div className="text-xl font-bold text-pink-300">{totals.deletions.toLocaleString()}</div>
+          <div className="text-xl font-bold text-pink-300">
+            {totals.deletions.toLocaleString()}
+          </div>
         </div>
       </div>
 
       <div className="h-28">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart
+            data={data}
+            margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+          >
             <defs>
-              <linearGradient id="add" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="cf_add" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#22c55e" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="del" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="cf_del" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#ec4899" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#ec4899" stopOpacity={0} />
               </linearGradient>
@@ -118,13 +147,16 @@ export default function CodeFrequencyChart({ heatmap }: CodeFrequencyChartProps)
               tick={{ fill: "#7b8aa5", fontSize: 11 }}
             />
             <YAxis hide />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#1f2937", strokeWidth: 1 }} />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ stroke: "#1f2937", strokeWidth: 1 }}
+            />
             <Area
               type="monotone"
               dataKey="additions"
               stroke="#22c55e"
               strokeWidth={2}
-              fill="url(#add)"
+              fill="url(#cf_add)"
               dot={false}
               animationDuration={700}
             />
@@ -133,7 +165,7 @@ export default function CodeFrequencyChart({ heatmap }: CodeFrequencyChartProps)
               dataKey="deletions"
               stroke="#ec4899"
               strokeWidth={2}
-              fill="url(#del)"
+              fill="url(#cf_del)"
               dot={false}
               animationDuration={700}
             />

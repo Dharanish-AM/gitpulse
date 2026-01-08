@@ -5,7 +5,9 @@ interface LanguageDistributionProps {
   languages: DashboardData["languages"];
 }
 
-export default function LanguageDistribution({ languages }: LanguageDistributionProps) {
+export default function LanguageDistribution({
+  languages,
+}: LanguageDistributionProps) {
   const total = languages.reduce((s, l) => s + l.percent, 0) || 1;
   let cumulative = 0;
   const radius = 45;
@@ -13,7 +15,7 @@ export default function LanguageDistribution({ languages }: LanguageDistribution
   const palette = ["#23e5ff", "#9b5cff", "#ff4f79", "#3de282", "#7c7f87"];
 
   return (
-    <Card className="bg-[#0d1624] border-[#12314a] text-white">
+    <Card variant="default" glow={true}>
       <div className="flex items-center gap-2 mb-4">
         <span className="text-cyan-400">&lt;/&gt;</span>
         <h3 className="text-lg font-semibold">Language Distribution</h3>
@@ -47,7 +49,10 @@ export default function LanguageDistribution({ languages }: LanguageDistribution
         </div>
         <div className="space-y-2 text-sm">
           {languages.map((lang, idx) => (
-            <div key={lang.name} className="flex items-center gap-2 text-gray-200">
+            <div
+              key={lang.name}
+              className="flex items-center gap-2 text-gray-200"
+            >
               <span
                 className="inline-block w-3 h-3 rounded-full"
                 style={{ background: palette[idx % palette.length] }}
