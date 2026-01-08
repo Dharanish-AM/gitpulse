@@ -5,6 +5,7 @@ import { DashboardData, DashboardRange } from "@/types/dashboard";
 import { calculateStreak } from "@/lib/analytics/streaks";
 import { calculateMomentum, getMomentumLabel } from "@/lib/analytics/momentum";
 import { CONTRIBUTION_DATA_QUERY, RECENT_ACTIVITY_QUERY } from "@/lib/github.graphql";
+import { log } from "@/lib/logger";
 
 function defaultRange(): DashboardRange {
   const to = new Date();
@@ -22,6 +23,7 @@ export async function GET(req: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get("gh_token")?.value;
   if (!token) {
+    log("warn", "Dashboard request missing auth cookie");
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -31,6 +33,7 @@ export async function GET(req: Request) {
   // Fetch viewer basic info via REST for login
   const viewerRes = await octokit.request("GET /user");
   const login: string = viewerRes.data.login as string;
+  log("info", "Dashboard request", { login, range });
 
   // GraphQL: contributions calendar and repositories
   const [contrib] = await Promise.all([
@@ -44,6 +47,7 @@ export async function GET(req: Request) {
   const heatmap = calWeeks.flatMap((w) =>
     w.contributionDays.map((d) => ({ date: d.date, count: d.contributionCount }))
   );
+  log("debug", "Heatmap computed", { days: heatmap.length });
 
   // Streaks
   const streakInput = heatmap.map((d) => ({ date: d.date, count: d.count }));
@@ -55,6 +59,7 @@ export async function GET(req: Request) {
   const prev7 = last14.slice(0, 7).reduce((s, d) => s + d.count, 0);
   const momentumPct = calculateMomentum(recent7, prev7);
   const momentumState = getMomentumLabel(momentumPct).toLowerCase() as DashboardData["momentum"]["state"];
+  log("debug", "Momentum computed", { recent7, prev7, momentumPct, momentumState });
 
   // Totals via GraphQL contributionsCollection totals
   const totalsGql = await gql(
@@ -112,6 +117,7 @@ export async function GET(req: Request) {
       language: r.primaryLanguage?.name || "Other",
       contributions: 0,
     }));
+  log("debug", "Repos computed", { count: repoNodes.length });
 
   // Recent Activity (limited)
   const recentActivityGql = await gql(RECENT_ACTIVITY_QUERY, { first: 5 }) as unknown as RecentActivityResponse;
@@ -152,6 +158,7 @@ export async function GET(req: Request) {
         url: c.html_url,
         contributions: 0,
       }));
+      log("debug", "Collaborators fetched", { repo, collaborators: collaborators.length });
     } catch {}
   }
 
@@ -162,6 +169,13 @@ export async function GET(req: Request) {
     limit: rateLimitRest.limit,
     resetAt: rateLimitRest.resetAt,
   };
+  log("info", "Dashboard computed", {
+    login,
+    totals: totalsNode,
+    heatmapDays: heatmap.length,
+    topRepos: topRepos.length,
+    collaborators: collaborators.length,
+  });
 
   const data: DashboardData = {
     user: {

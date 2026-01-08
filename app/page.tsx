@@ -1,9 +1,7 @@
-import Header from "@/components/header/Header";
-import StatsBar from "@/components/stats/StatsBar";
-import ContributionHeatmap from "@/components/heatmap/ContributionHeatmap";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { getGitHubAuthorizeURL } from "@/lib/auth";
+import DashboardClient from "@/components/dashboard/DashboardClient";
 
 export default async function DashboardPage() {
   const token = (await cookies()).get("gh_token")?.value;
@@ -11,7 +9,6 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <Header />
       {!isAuthed ? (
         <div className="p-8">
           <Link
@@ -22,12 +19,8 @@ export default async function DashboardPage() {
           </Link>
         </div>
       ) : (
-        <>
-          <StatsBar />
-          <ContributionHeatmap />
-        </>
+        <DashboardClient />
       )}
-      {/* other sections */}
     </main>
   );
 }
