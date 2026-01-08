@@ -16,11 +16,13 @@ export default function StatsBar({ totals, momentum }: StatsBarProps) {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
       {stats.map((s) => (
         <StatCard key={s.label} label={s.label} value={s.value} />
       ))}
-      <MomentumBadge momentum={momentum} />
+      <div className="flex items-stretch">
+        <MomentumBadge momentum={momentum} />
+      </div>
     </div>
   );
 }

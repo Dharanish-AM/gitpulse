@@ -14,11 +14,13 @@ export default function MomentumBadge({ momentum }: MomentumBadgeProps) {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border ${color} bg-gray-900`}
+      className={`flex-1 flex items-center justify-between px-5 py-4 rounded-2xl border ${color} bg-[#0b1424] shadow-[0_10px_40px_rgba(0,0,0,0.35)]`}
     >
-      <span className="text-sm font-semibold">Momentum</span>
-      <span className="text-lg font-bold">{momentum.weeklyChangePercent}%</span>
-      <span className="text-xs uppercase">{momentum.state}</span>
+      <div>
+        <span className="text-sm font-semibold block text-gray-300">Momentum</span>
+        <span className="text-xs uppercase tracking-wide text-gray-400">{momentum.state}</span>
+      </div>
+      <span className="text-2xl font-bold">{momentum.weeklyChangePercent}%</span>
     </div>
   );
 }

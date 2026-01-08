@@ -1,23 +1,26 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
         // Cyberpunk theme
         neon: {
-          cyan: '#00f0ff',
-          pink: '#ff006e',
-          purple: '#8338ec',
-          lime: '#3a86ff',
+          cyan: "#00f0ff",
+          pink: "#ff006e",
+          purple: "#8338ec",
+          lime: "#3a86ff",
         },
       },
+      fontFamily: {
+        sans: ["var(--font-space-grotesk)", "sans-serif"],
+      },
       animation: {
-        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

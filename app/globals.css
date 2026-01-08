@@ -1,26 +1,225 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cyberpunk palette from prototype */
+  --background: hsl(222 47% 5%);
+  --foreground: hsl(210 40% 98%);
+  --surface: hsl(220 33% 11%);
+  --surface-foreground: hsl(210 40% 98%);
+  --card: hsl(220 33% 11%);
+  --card-foreground: hsl(210 40% 98%);
+  --popover: hsl(220 33% 11%);
+  --popover-foreground: hsl(210 40% 98%);
+  --primary: hsl(187 85% 53%);
+  --primary-foreground: hsl(222 47% 5%);
+  --secondary: hsl(270 91% 65%);
+  --secondary-foreground: hsl(210 40% 98%);
+  --accent: hsl(330 90% 60%);
+  --accent-foreground: hsl(210 40% 98%);
+  --success: hsl(142 71% 45%);
+  --success-foreground: hsl(222 47% 5%);
+  --muted: hsl(220 20% 20%);
+  --muted-foreground: hsl(215 20% 55%);
+  --destructive: hsl(330 90% 60%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: 244 55% 67% / 0.15;
+  --input: hsl(220 33% 15%);
+  --ring: hsl(187 85% 53%);
+  --radius: 0.5rem;
+  --glow-primary: 0 0 20px hsl(187 85% 53% / 0.4);
+  --glow-secondary: 0 0 20px hsl(270 91% 65% / 0.4);
+  --glow-accent: 0 0 20px hsl(330 90% 60% / 0.4);
+  --glow-success: 0 0 20px hsl(142 71% 45% / 0.4);
+  --glass-bg: 220 33% 11% / 0.8;
+  --glass-border: 244 55% 67% / 0.2;
+  --glass-blur: 12px;
+  --heat-0: hsl(220 33% 15%);
+  --heat-1: hsl(187 85% 25%);
+  --heat-2: hsl(187 85% 35%);
+  --heat-3: hsl(187 85% 45%);
+  --heat-4: hsl(187 85% 53%);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-space-grotesk);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-space-grotesk), "Inter", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-space-grotesk), "Inter", system-ui, sans-serif;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+.glow-primary {
+  box-shadow: var(--glow-primary);
+}
+.glow-secondary {
+  box-shadow: var(--glow-secondary);
+}
+.glow-accent {
+  box-shadow: var(--glow-accent);
+}
+.glow-success {
+  box-shadow: var(--glow-success);
+}
+.text-glow-primary {
+  text-shadow: 0 0 10px hsl(187 85% 53% / 0.6);
+}
+.text-glow-secondary {
+  text-shadow: 0 0 10px hsl(270 91% 65% / 0.6);
+}
+.glass {
+  background: hsl(var(--glass-bg));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid hsl(var(--glass-border));
+}
+.neon-border {
+  border: 1px solid hsl(var(--primary) / 0.3);
+}
+.neon-border-active {
+  border: 1px solid hsl(var(--primary));
+  box-shadow: var(--glow-primary), inset 0 0 20px hsl(var(--primary) / 0.1);
+}
+.surface-card {
+  background: var(--card);
+  border-radius: 0.75rem;
+  border: 1px solid hsl(var(--border));
+}
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--surface)) 0%,
+    hsl(var(--muted)) 50%,
+    hsl(var(--surface)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.glow-underline {
+  position: relative;
+}
+.glow-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--primary)),
+    transparent
+  );
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+}
+.bg-heat-0 {
+  background: var(--heat-0);
+}
+.bg-heat-1 {
+  background: var(--heat-1);
+}
+.bg-heat-2 {
+  background: var(--heat-2);
+}
+.bg-heat-3 {
+  background: var(--heat-3);
+}
+.bg-heat-4 {
+  background: var(--heat-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Animations for Landing Page */
+@keyframes grid-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(50px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+    box-shadow: 0 0 20px var(--primary);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 40px var(--primary), 0 0 80px var(--neon-cyan);
+  }
+}
+
+.animate-grid {
+  animation: grid-move 20s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite;
+}
+
+.bg-grid-pattern {
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 240, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
 }

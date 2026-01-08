@@ -1,7 +1,57 @@
-export default function RecentActivity() {
+import Card from "@/components/ui/Card";
+import { DashboardData } from "@/types/dashboard";
+
+interface RecentActivityProps {
+  activity: DashboardData["recentActivity"];
+}
+
+function timeAgo(input: string) {
+  const date = new Date(input);
+  const diff = Date.now() - date.getTime();
+  const minutes = Math.max(Math.floor(diff / 60000), 0);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
+const typeBadges: Record<string, { label: string; color: string }> = {
+  commit: { label: "Commit", color: "text-cyan-300" },
+  pr: { label: "PR", color: "text-purple-300" },
+  issue: { label: "Issue", color: "text-pink-300" },
+  review: { label: "Review", color: "text-emerald-300" },
+};
+
+export default function RecentActivity({ activity }: RecentActivityProps) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
-      {/* Recent activity list */}
-    </div>
+    <Card className="bg-[#0d1624] border-[#12314a] text-white h-full">
+      <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
+      {activity.length === 0 ? (
+        <p className="text-sm text-gray-400">No recent activity captured yet.</p>
+      ) : (
+        <div className="space-y-3">
+          {activity.map((item, idx) => {
+            const badge = typeBadges[item.type] || typeBadges.commit;
+            return (
+              <div
+                key={`${item.repo}-${idx}-${item.timeAgo}`}
+                className="flex items-start gap-3 rounded-xl bg-[#0f1829] border border-[#1a2c45] p-3"
+              >
+                <div className={`mt-1 w-2.5 h-2.5 rounded-full ${badge.color}`}></div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{item.title}</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
+                    <span className="font-mono text-cyan-300">{item.repo}</span>
+                    <span>•</span>
+                    <span>{timeAgo(item.timeAgo)}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </Card>
   );
 }
