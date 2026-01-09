@@ -1,5 +1,6 @@
 import { DashboardData } from "@/types/dashboard";
 import Card from "@/components/ui/Card";
+import { Flame, TrendingUp } from "lucide-react";
 
 interface StreakMomentumProps {
   streaks: DashboardData["streaks"];
@@ -13,9 +14,9 @@ export default function StreakMomentum({
   totals,
 }: StreakMomentumProps) {
   return (
-    <Card variant="default" glow={true}>
+    <Card variant="default" glow={true} className="h-full">
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-pink-400">🔥</span>
+        <Flame className="text-orange-500" size={20} />
         <h3 className="text-lg font-semibold">Streak &amp; Momentum</h3>
       </div>
       <div className="grid grid-cols-3 gap-3">
@@ -36,7 +37,7 @@ export default function StreakMomentum({
         />
       </div>
       <div className="flex items-center gap-2 mt-3 text-sm text-green-400">
-        <span>↗</span>
+        <TrendingUp size={16} />
         <span>{momentum.weeklyChangePercent}% vs last week</span>
       </div>
     </Card>

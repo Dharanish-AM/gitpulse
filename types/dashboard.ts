@@ -35,6 +35,11 @@ export interface DashboardData {
       | "exceeding"
       | "declining";
   };
+  codeFrequency: {
+    week: number;
+    additions: number;
+    deletions: number;
+  }[];
   languages: {
     name: string;
     percent: number;

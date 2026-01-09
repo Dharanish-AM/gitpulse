@@ -1,5 +1,6 @@
 import { DashboardData } from "@/types/dashboard";
 import Card from "@/components/ui/Card";
+import { Zap } from "lucide-react";
 
 interface ProductivityPatternsProps {
   productivity: DashboardData["productivity"];
@@ -17,7 +18,7 @@ export default function ProductivityPatterns({
   return (
     <Card variant="default" glow={true}>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-purple-300">⚡</span>
+        <Zap className="text-yellow-400" size={20} />
         <h3 className="text-lg font-semibold">Productivity Patterns</h3>
       </div>
 

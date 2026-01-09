@@ -1,5 +1,6 @@
 import { DashboardData } from "@/types/dashboard";
 import Card from "@/components/ui/Card";
+import { CodeXml } from "lucide-react";
 
 interface LanguageDistributionProps {
   languages: DashboardData["languages"];
@@ -17,7 +18,7 @@ export default function LanguageDistribution({
   return (
     <Card variant="default" glow={true}>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-cyan-400">&lt;/&gt;</span>
+        <CodeXml className="text-cyan-400" size={20} />
         <h3 className="text-lg font-semibold">Language Distribution</h3>
       </div>
       <div className="flex items-center gap-6">

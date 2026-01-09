@@ -145,6 +145,50 @@ export async function GET(req: Request) {
     }));
   log("debug", "Repos computed", { count: repoNodes.length });
 
+  // Code Frequency (Top 5 Repos Aggregated)
+  const codeFrequencyMap = new Map<
+    number,
+    { additions: number; deletions: number }
+  >();
+
+  await Promise.all(
+    topRepos.map(async (repo) => {
+      try {
+        const owner = login;
+        const stats = await octokit.request(
+          "GET /repos/{owner}/{repo}/stats/code_frequency",
+          {
+            owner,
+            repo: repo.name,
+          }
+        );
+
+        if (Array.isArray(stats.data)) {
+          stats.data.forEach((weekData: any) => {
+            const week = weekData[0];
+            const add = weekData[1];
+            const del = weekData[2];
+
+            const current = codeFrequencyMap.get(week) || {
+              additions: 0,
+              deletions: 0,
+            };
+            codeFrequencyMap.set(week, {
+              additions: current.additions + add,
+              deletions: current.deletions + Math.abs(del),
+            });
+          });
+        }
+      } catch (e) {
+        // Ignore errors
+      }
+    })
+  );
+
+  const codeFrequency = Array.from(codeFrequencyMap.entries())
+    .map(([week, { additions, deletions }]) => ({ week, additions, deletions }))
+    .sort((a, b) => a.week - b.week);
+
   // Recent Activity (limited)
   const recentActivityGql = (await gql(RECENT_ACTIVITY_QUERY, {
     first: 5,
@@ -242,6 +286,7 @@ export async function GET(req: Request) {
       state: momentumState,
     },
     languages,
+    codeFrequency,
     productivity: { peakHour, peakDay, byHour, byDay },
     topRepos,
     recentActivity,

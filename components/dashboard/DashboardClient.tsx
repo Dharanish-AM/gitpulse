@@ -107,7 +107,7 @@ export default function DashboardClient() {
         </section>
 
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <CodeFrequencyChart heatmap={data.heatmap} />
+          <CodeFrequencyChart codeFrequency={data.codeFrequency} />
           <TopCollaborators collaborators={data.collaborators} />
         </section>
       </div>

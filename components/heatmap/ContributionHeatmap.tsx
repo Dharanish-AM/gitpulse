@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DashboardData } from "@/types/dashboard";
 import HeatmapCell from "./HeatmapCell";
 import Card from "@/components/ui/Card";
@@ -29,7 +30,13 @@ function toCalendar(heatmap: ContributionHeatmapProps["heatmap"]) {
   return weeks;
 }
 
-export default function ContributionHeatmap({ heatmap }: ContributionHeatmapProps) {
+export default function ContributionHeatmap({
+  heatmap,
+}: ContributionHeatmapProps) {
+  const [hoveredDay, setHoveredDay] = useState<{
+    date: string;
+    count: number;
+  } | null>(null);
   const weeks = toCalendar(heatmap);
   const max = heatmap.reduce((m, d) => Math.max(m, d.count), 0) || 1;
   const total = heatmap.reduce((s, d) => s + d.count, 0);
@@ -39,8 +46,22 @@ export default function ContributionHeatmap({ heatmap }: ContributionHeatmapProp
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-lg font-semibold">Contribution Activity</h2>
-          <p className="text-sm text-gray-400">
-            {total.toLocaleString()} contributions in the last year
+          <p className="text-sm text-gray-400 h-5">
+            {hoveredDay ? (
+              <>
+                <span className="text-white font-medium">
+                  {hoveredDay.count} contributions
+                </span>
+                {" on "}
+                {new Date(hoveredDay.date).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </>
+            ) : (
+              `${total.toLocaleString()} contributions in the last year`
+            )}
           </p>
         </div>
         <Legend />
@@ -50,7 +71,14 @@ export default function ContributionHeatmap({ heatmap }: ContributionHeatmapProp
         {weeks.map((week, idx) => (
           <div key={idx} className="grid grid-rows-7 gap-1">
             {week.map((day) => (
-              <HeatmapCell key={day.date} value={day.count} max={max} date={day.date} />
+              <HeatmapCell
+                key={day.date}
+                value={day.count}
+                max={max}
+                date={day.date}
+                onMouseEnter={() => setHoveredDay(day)}
+                onMouseLeave={() => setHoveredDay(null)}
+              />
             ))}
           </div>
         ))}
@@ -58,8 +86,23 @@ export default function ContributionHeatmap({ heatmap }: ContributionHeatmapProp
 
       <div className="flex items-center justify-between text-xs text-gray-500 mt-3">
         <div className="grid grid-cols-12 w-full">
-          {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m) => (
-            <span key={m} className="text-center">{m}</span>
+          {[
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ].map((m) => (
+            <span key={m} className="text-center">
+              {m}
+            </span>
           ))}
         </div>
       </div>
@@ -73,10 +116,7 @@ function Legend() {
     <div className="flex items-center gap-2 text-xs text-gray-400">
       <span>Less</span>
       {stops.map((i) => (
-        <span
-          key={i}
-          className={`w-4 h-4 rounded-sm bg-heat-${i}`}
-        />
+        <span key={i} className={`w-4 h-4 rounded-sm bg-heat-${i}`} />
       ))}
       <span>More</span>
     </div>

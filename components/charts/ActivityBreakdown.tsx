@@ -1,5 +1,6 @@
 import Card from "@/components/ui/Card";
 import { DashboardData } from "@/types/dashboard";
+import { Layers } from "lucide-react";
 import {
   Area,
   AreaChart,
@@ -123,7 +124,10 @@ export default function ActivityBreakdown({
   return (
     <Card className="bg-[#0c1322] border-[#12314a] text-white h-full">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Activity Breakdown</h3>
+        <div className="flex items-center gap-2">
+          <Layers className="text-cyan-400" size={20} />
+          <h3 className="text-lg font-semibold">Activity Breakdown</h3>
+        </div>
         <span className="text-xs text-gray-400">Last {data.length} weeks</span>
       </div>
       <div className="h-64">
