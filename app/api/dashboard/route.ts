@@ -189,11 +189,12 @@ export async function GET(req: Request) {
     .map(([week, { additions, deletions }]) => ({ week, additions, deletions }))
     .sort((a, b) => a.week - b.week);
 
-  // Recent Activity (limited)
+  // Recent Activity (fetch more for stats, slice for display)
   const recentActivityGql = (await gql(RECENT_ACTIVITY_QUERY, {
-    first: 5,
+    first: 20,
   })) as unknown as RecentActivityResponse;
-  const recentActivity = recentActivityGql.viewer.repositories.nodes
+
+  const allRecentActivity = recentActivityGql.viewer.repositories.nodes
     .flatMap((n) => {
       const repoName = n.name;
       const edges = n.defaultBranchRef?.target?.history?.edges || [];
@@ -204,12 +205,14 @@ export async function GET(req: Request) {
         timeAgo: new Date(e.node.committedDate).toISOString(),
       }));
     })
-    .slice(0, 10);
+    .sort(
+      (a, b) => new Date(b.timeAgo).getTime() - new Date(a.timeAgo).getTime()
+    );
 
-  // Productivity (basic from commits timestamps)
+  // Use ALL fetched activity for productivity stats to resolve "accuracy" issues
   const byHour = new Array(24).fill(0);
   const byDay = new Array(7).fill(0); // 0=Sunday
-  for (const item of recentActivity) {
+  for (const item of allRecentActivity) {
     const d = new Date(item.timeAgo);
     byHour[d.getHours()]++;
     byDay[d.getDay()]++;
@@ -217,6 +220,9 @@ export async function GET(req: Request) {
   const peakHour = byHour.indexOf(Math.max(...byHour));
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const peakDay = days[byDay.indexOf(Math.max(...byDay))] || "Mon";
+
+  // Slice for the UI list
+  const recentActivity = allRecentActivity.slice(0, 10);
 
   // Collaborators from the top repo (if available)
   let collaborators: Array<{

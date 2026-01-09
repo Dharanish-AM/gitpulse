@@ -170,7 +170,7 @@ export default function ActivityBreakdown({
               content={<CustomTooltip />}
               cursor={{ stroke: "#1f2937", strokeWidth: 1 }}
             />
-            <Legend verticalAlign="bottom" content={<CustomLegend />} />
+
             <Area
               type="monotone"
               dataKey="commits"
@@ -213,6 +213,25 @@ export default function ActivityBreakdown({
             />
           </AreaChart>
         </ResponsiveContainer>
+      </div>
+
+      <div className="flex flex-wrap gap-4 text-xs text-gray-300 mt-4 px-2">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-sm bg-[#22d3ee]" />
+          <span>Commits</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-sm bg-[#ec4899]" />
+          <span>Issues</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-sm bg-[#a855f7]" />
+          <span>PRs</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-sm bg-[#22c55e]" />
+          <span>Reviews</span>
+        </div>
       </div>
     </Card>
   );

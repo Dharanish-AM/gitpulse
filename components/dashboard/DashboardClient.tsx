@@ -14,8 +14,25 @@ import RecentActivity from "@/components/activity/RecentActivity";
 import CodeFrequencyChart from "@/components/charts/CodeFrequencyChart";
 import TopCollaborators from "@/components/collaborators/TopCollaborators";
 import ActivityInsights from "@/components/stats/ActivityInsights";
-import FloatingFilters from "@/components/filters/FloatingFilters";
+
 import Card from "../ui/Card";
+
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
 
 export default function DashboardClient() {
   const { data, loading, error } = useDashboardData();
@@ -82,32 +99,58 @@ export default function DashboardClient() {
         rateLimit={data.rateLimit}
         momentum={data.momentum}
       />
-      <div className="relative z-10 w-full px-4 md:px-8 lg:px-12 py-6 space-y-6">
-        <StatsBar totals={data.totals} momentum={data.momentum} />
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <StreakMomentum
-            streaks={data.streaks}
-            momentum={data.momentum}
-            totals={data.totals}
-          />
-          <LanguageDistribution languages={data.languages} />
-          <ProductivityPatterns productivity={data.productivity} />
-        </section>
-        <ContributionHeatmap heatmap={data.heatmap} />
-        <section className="">
-          <ActivityBreakdown heatmap={data.heatmap} totals={data.totals} />
-        </section>
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <TopRepositories repos={data.topRepos} />
+      <motion.div
+        className="relative z-10 w-full px-4 md:px-8 lg:px-12 py-6 space-y-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div variants={itemVariants}>
+          <StatsBar totals={data.totals} momentum={data.momentum} />
+        </motion.div>
 
-          <RecentActivity activity={data.recentActivity} />
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div variants={itemVariants} className="h-full">
+            <StreakMomentum
+              streaks={data.streaks}
+              momentum={data.momentum}
+              totals={data.totals}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants} className="h-full">
+            <LanguageDistribution languages={data.languages} />
+          </motion.div>
+          <motion.div variants={itemVariants} className="h-full">
+            <ProductivityPatterns productivity={data.productivity} />
+          </motion.div>
         </section>
+
+        <motion.div variants={itemVariants}>
+          <ContributionHeatmap heatmap={data.heatmap} />
+        </motion.div>
+
+        <motion.section variants={itemVariants}>
+          <ActivityBreakdown heatmap={data.heatmap} totals={data.totals} />
+        </motion.section>
+
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <CodeFrequencyChart codeFrequency={data.codeFrequency} />
-          <ActivityInsights heatmap={data.heatmap} />
+          <motion.div variants={itemVariants} className="h-full">
+            <TopRepositories repos={data.topRepos} />
+          </motion.div>
+          <motion.div variants={itemVariants} className="h-full">
+            <RecentActivity activity={data.recentActivity} />
+          </motion.div>
         </section>
-      </div>
-      <FloatingFilters />
+
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <motion.div variants={itemVariants} className="h-full">
+            <CodeFrequencyChart codeFrequency={data.codeFrequency} />
+          </motion.div>
+          <motion.div variants={itemVariants} className="h-full">
+            <ActivityInsights heatmap={data.heatmap} />
+          </motion.div>
+        </section>
+      </motion.div>
     </main>
   );
 }
