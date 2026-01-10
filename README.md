@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitPulse
+
+**The Pulse of your Codebase.**
+Visualize, Analyze, and Optimize your development workflow.
+
+![GitPulse Banner](/dashboard.png)
+
+## Overview
+
+GitPulse is a developer-focused dashboard that allows you to visualize your GitHub activity, analyze your coding patterns, and optimize your workflow. Built with a modern "Cyberpunk" aesthetic, it provides a premium user experience with deep insights into your repositories.
+
+## Features
+
+- **GitHub OAuth Integration**: Securely sign in with your GitHub account.
+- **Repository Visualization**: Interactive graphs and charts representing your commit history and branch structure.
+- **Developer Statistics**: Detailed breakdown of languages, commit frequency, and contribution health.
+- **Modern UI**: A fully responsive, dark-mode first interface built with TailwindCSS and Framer Motion.
+- **Privacy Focused**: We only access what's necessary. Check our [Privacy Policy](/app/privacy/page.tsx).
+
+## Tech Stack
+
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Charts**: [Recharts](https://recharts.org/)
+- **API**: [Octokit](https://github.com/octokit/octokit.js)
+- **Deployment**: [Vercel](https://vercel.com)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18+
+- npm or pnpm
+- A GitHub OAuth App (Client ID and Secret)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/gitpulse.git
+    cd gitpulse
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-## Learn More
+3.  **Environment Setup**:
+    Create a `.env.local` file in the root directory and add your GitHub OAuth credentials:
 
-To learn more about Next.js, take a look at the following resources:
+    ```env
+    # GitHub OAuth
+    GITHUB_CLIENT_ID=your_client_id
+    GITHUB_CLIENT_SECRET=your_client_secret_secret
+    NEXT_PUBLIC_GITHUB_CLIENT_ID=your_client_id
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    # App URL (Authentication Redirect)
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Run Development Server**:
+    ```bash
+    npm run dev
+    ```
 
-## Deploy on Vercel
+    Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Legal
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Privacy Policy](./app/privacy/page.tsx)
+- [Terms of Service](./app/terms/page.tsx)
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+
+## License
+
+This project is licensed under the MIT License.

@@ -9,7 +9,11 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "GitPulse",
-  description: "The Pulse of your Codebase. Visualize, Analyze, and Optimize your development workflow.",
+  description:
+    "The Pulse of your Codebase. Visualize, Analyze, and Optimize your development workflow.",
+  icons: {
+    icon: "/gitpulse.png",
+  },
 };
 
 export default function RootLayout({
